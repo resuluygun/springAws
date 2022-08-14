@@ -1,19 +1,23 @@
 package com.resbus.demo.config;
 
+import org.springframework.context.annotation.Configuration;
+
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
 
+@Configuration
 public class PropertyFileReader {
     public void getPropValues() throws IOException {
         InputStream inputStream = null;
         try {
             Properties prop = new Properties();
-            String propFileName = "config.properties";
+            String propFileName = "src/main/java/com/resbus/demo/config/config.properties";
 
-            inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+            inputStream = new FileInputStream(propFileName);
 
             if (inputStream != null) {
                 prop.load(inputStream);

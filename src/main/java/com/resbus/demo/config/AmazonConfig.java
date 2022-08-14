@@ -15,7 +15,7 @@ public class AmazonConfig {
     public AmazonS3 s3(){
         AWSCredentials awsCredentials = new BasicAWSCredentials(
                 System.getProperty("awsAccessKey"),
-                System.getProperty("awsAccessKey")
+                System.getProperty("awsSecretKey")
         );
         return AmazonS3ClientBuilder
                 .standard()
