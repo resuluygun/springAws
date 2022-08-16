@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.IOException;
 
 @SpringBootApplication
-public class DemoApplication {
+public class Main {
 
 	public static void main(String[] args) {
 		PropertyFileReader t = new PropertyFileReader();
@@ -16,7 +16,7 @@ public class DemoApplication {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(Main.class, args);
 	}
 
 }
