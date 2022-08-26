@@ -4,7 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 /src/main/java/com/resbus/demo/config/config.properties
-
+/src/main/frontend/node_modules
 ### STS ###
 .apt_generated
 .classpath
