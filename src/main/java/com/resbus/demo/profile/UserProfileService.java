@@ -22,5 +22,8 @@ public class UserProfileService {
 
 
     public void uploadUserProfileImage(UUID userProfileId, MultipartFile file) {
+        System.out.println(userProfileId);
+        System.out.println(file);
+
     }
 }
