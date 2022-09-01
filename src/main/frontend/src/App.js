@@ -26,7 +26,7 @@ function App() {
             <h1>{user.username}</h1>
             <p>{user.userProfileId}</p>
             <h1>{user.userProfileImageLink}</h1>
-            <Dropzone/>
+            <Dropzone {...user}/>
             <br/>
         </div>
         )
