@@ -25,7 +25,10 @@ function App() {
             <br/>
             <h1>{user.username}</h1>
             <p>{user.userProfileId}</p>
-            <h1>{user.userProfileImageLink}</h1>
+            { user.userProfileId ? 
+              <img src={`http://localhost:8080/api/v1/user-profile/${user.userProfileId}/image/download`} /> : 
+              null
+            }
             <Dropzone {...user}/>
             <br/>
         </div>
