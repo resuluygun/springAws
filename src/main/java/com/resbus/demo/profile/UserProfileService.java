@@ -31,22 +31,11 @@ public class UserProfileService {
     public void uploadUserProfileImage(UUID userProfileId, MultipartFile file) {
         System.out.println(userProfileId);
         System.out.println(file);
-        if (file.isEmpty()) {
-            throw new IllegalStateException("Cannot upload empty file");
-        }
-        else if (!Arrays.asList(IMAGE_JPEG.getMimeType(), IMAGE_PNG.getMimeType(), IMAGE_GIF.getMimeType())
-                .contains(file.getContentType())){
-            throw new IllegalStateException("File must be an image");
-        }
+        isFileEmpty(file);
+        isImage(file);
 
-        UserProfile user =getUserProfiles()
-                .stream()
-                .filter(userProfile -> userProfile.getUserProfileId().equals(userProfileId))
-                .findAny()
-                .orElse(null) ;
-        if (user== null){
-            throw new IllegalStateException(String.format("User profile %s not found",userProfileId));
-        }
+        UserProfile user = getUserProfileOrThrow(userProfileId);
+
 
         Map<String, String> metadata= new HashMap<>();
         metadata.put("Content-Type", file.getContentType());
@@ -62,5 +51,27 @@ public class UserProfileService {
             throw new IllegalStateException(e);
         }
 
+    }
+
+    private UserProfile getUserProfileOrThrow(UUID userProfileId) {
+        UserProfile user =getUserProfiles()
+                .stream()
+                .filter(userProfile -> userProfile.getUserProfileId().equals(userProfileId))
+                .findAny()
+                .orElseThrow(()-> new IllegalStateException(String.format("User profile %s not found", userProfileId))) ;
+        return user;
+    }
+
+    private  void isImage(MultipartFile file) {
+        if (!Arrays.asList(IMAGE_JPEG.getMimeType(), IMAGE_PNG.getMimeType(), IMAGE_GIF.getMimeType())
+                .contains(file.getContentType())){
+            throw new IllegalStateException("File must be an image");
+        }
+    }
+
+    private void isFileEmpty(MultipartFile file) {
+        if (file.isEmpty()) {
+            throw new IllegalStateException("Cannot upload empty file");
+        }
     }
 }
