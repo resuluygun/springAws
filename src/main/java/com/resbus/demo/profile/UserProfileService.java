@@ -41,7 +41,7 @@ public class UserProfileService {
         metadata.put("Content-Type", file.getContentType());
         metadata.put("Content-Length", String.valueOf(file.getSize()));
 
-        String path = String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), userProfileId);
+        String path = getUserProfileImageBucketKey(userProfileId); // s3 bucket key
         String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID());
 
         try {
@@ -51,6 +51,16 @@ public class UserProfileService {
             throw new IllegalStateException(e);
         }
 
+    }
+
+    public  byte[]  downloadUserProfileImage(UUID userProfileId) {
+        UserProfile user = getUserProfileOrThrow(userProfileId); // find user
+        String path = getUserProfileImageBucketKey(userProfileId); // s3 bucket key
+        return user.getUserProfileImageLink().map((key)-> fileStore.download(path,key)).orElse(new byte[0]);
+    }
+
+    private static String getUserProfileImageBucketKey(UUID userProfileId) {
+        return String.format("%s/%s", BucketName.PROFILE_IMAGE.getBucketName(), userProfileId);
     }
 
     private UserProfile getUserProfileOrThrow(UUID userProfileId) {
